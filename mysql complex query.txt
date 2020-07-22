@@ -1,0 +1,12 @@
+Event ID: ICI-7009-OJNG
+
+
+SELECT *, ( SELECT ROUND( ( (SUM(marks))/1500 )*100 ) FROM marks WHERE student_id=students.student_id  ) AS percentage,
+,(CASE WHEN (percentage>=60) THEN "1"
+             WHEN (percentage <60 && percentage>50) THEN "2"
+             WHEN (percentage <50 && percentage>33) THEN "3"
+             WHEN (percentage<=33) THEN "4"
+       END) AS merit
+ FROM students WHERE student_id IN ( 
+SELECT student_id FROM marks WHERE class_id=1 GROUP BY student_id
+) AND gender='Male';
